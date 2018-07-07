@@ -1,5 +1,5 @@
 module.exports = {
-    lsitFiles: require('./listFiles'),
-    lsitFolders: require('./listFolders'),
+    listFiles: require('./listFiles'),
+    listFolders: require('./listFolders'),
     readAndRequire: require('./readAndRequire'),
 }
