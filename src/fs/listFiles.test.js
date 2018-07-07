@@ -1,5 +1,4 @@
 const test = require('ava')
-const path = require('path')
 
 const listFiles = require('./listFiles')
 

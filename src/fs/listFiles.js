@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const isFunction = require('../assert/isFunction')
 
-module.exports = function utils_fs_listFiles(directory, customMap) {
+module.exports = function utils_fs_listFiles(directory, { absolutePath = false, map: customMap } = {}) {
     const directoryExists = fs.existsSync(directory)
     const isFolderAndExists = directoryExists && fs.lstatSync(directory).isDirectory()
 
@@ -17,7 +17,11 @@ module.exports = function utils_fs_listFiles(directory, customMap) {
 
             return !isIndex && !isDirectory && !isTest
         })
-        .map(file => file.replace('.js', ''))
+        .map(file => {
+            const fileName = file.replace('.js', '')
+
+            return absolutePath ? path.join(directory, fileName) : fileName
+        })
 
     if (isFunction(customMap)) {
         files = files.map(customMap)
