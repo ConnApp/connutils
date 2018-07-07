@@ -1,15 +1,17 @@
 const path = require('path')
 
-function utils_assert_buildServiceExport(obj, fileName) {
-    const filePath = path.join(__dirname, fileName)
+function utils_assert_setDirectory(directory) {
+    return function utils_assert_buildServiceExport(obj, fileName) {
+        const filePath = path.join(directory, fileName)
 
-    obj[fileName] = require(filePath)
+        obj[fileName] = require(filePath)
 
-    return obj
+        return obj
+    }
 }
 
-module.export = function utils_fs_readAndRequire(directory, type = 'files') {
-    if ([
+module.exports = function utils_fs_readAndRequire(directory, type = 'files') {
+    if (![
         'files',
         'folders',
     ].includes(type)) {
@@ -18,5 +20,5 @@ module.export = function utils_fs_readAndRequire(directory, type = 'files') {
 
     const listFunction = type === 'files' ? require('./listFiles') : require('./listFolders')
 
-    return listFunction(__dirname).reduce(utils_assert_buildServiceExport, {})
+    return listFunction(directory).reduce(utils_assert_setDirectory(directory), {})
 }
